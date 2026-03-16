@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quorum — Multi-LLM Council (Groq)</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#0a0a0b;--bg2:#111113;--bg3:#18181c;--bg4:#1e1e24;
@@ -18,11 +18,11 @@ body{background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;font-w
 .shell{max-width:900px;margin:0 auto}
 
 .hdr{text-align:center;margin-bottom:32px}
-.hdr h1{font-family:'Playfair Display',serif;font-size:52px;font-weight:400;letter-spacing:-.5px;line-height:1}
+.hdr h1{font-family:'Playfair Display',serif;font-size:52px;font-weight:400;letter-spacing:-.5px}
 .hdr h1 em{font-style:italic;color:var(--gold2)}
 .tagline{margin-top:8px;font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
 .powered{margin-top:6px;font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
-.powered span{color:var(--gold);font-weight:500}
+.powered span{color:var(--gold)}
 .divider{width:40px;height:1px;background:var(--border2);margin:16px auto}
 
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
@@ -38,30 +38,30 @@ body{background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;font-w
 .kf input:focus{outline:none;border-color:var(--border2)}
 .knote{font-size:11px;color:var(--text3);line-height:1.65;margin-top:8px}
 .knote a{color:var(--gold);text-decoration:none}
-.knote a:hover{text-decoration:underline}
 
 .sbar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;margin-bottom:14px}
 .sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--text3)}
 .sdot.green{background:#4ade80}.sdot.amber{background:var(--gold)}.sdot.red{background:#f87171}
 .sdot.pulse{animation:pulse 1.5s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.stext{font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace}
-.srefresh{margin-left:auto;font-size:11px;font-family:'JetBrains Mono',monospace;background:var(--bg4);border:1px solid var(--border2);color:var(--text2);padding:4px 10px;border-radius:4px;cursor:pointer}
+.stext{font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;flex:1}
+.srefresh{font-size:11px;font-family:'JetBrains Mono',monospace;background:var(--bg4);border:1px solid var(--border2);color:var(--text2);padding:4px 10px;border-radius:4px;cursor:pointer;white-space:nowrap}
 
 .cfg-lbl{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;margin-top:14px}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
-.mcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:border-color .15s;user-select:none;position:relative}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.mcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;cursor:pointer;transition:border-color .15s;user-select:none;position:relative}
 .mcard:hover{border-color:var(--border2)}
 .mcard.sel{border-color:var(--gold);background:var(--bg4)}
-.mcard .mn{font-size:13px;color:var(--text);word-break:break-all;padding-right:20px}
-.mcard .md{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.4}
-.mcard .mck{position:absolute;top:10px;right:10px;width:16px;height:16px;border-radius:4px;border:1px solid var(--border2);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:all .15s}
+.mcard .mn{font-size:12px;color:var(--text);padding-right:22px;word-break:break-all;font-family:'JetBrains Mono',monospace}
+.mcard .mo{font-size:10px;color:var(--text3);margin-top:3px}
+.mcard .mck{position:absolute;top:9px;right:9px;width:15px;height:15px;border-radius:3px;border:1px solid var(--border2);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:all .15s}
 .mcard.sel .mck{background:var(--gold);border-color:var(--gold);color:#000}
-.mcard .crown{position:absolute;bottom:-1px;right:-1px;font-size:9px;background:var(--gold2);color:#000;padding:1px 5px;border-radius:var(--r) 0 var(--r) 0;font-family:'JetBrains Mono',monospace;font-weight:500}
+.mcard .crown{position:absolute;bottom:-1px;right:-1px;font-size:9px;background:var(--gold2);color:#000;padding:1px 5px;border-radius:var(--r) 0 var(--r) 0;font-family:'JetBrains Mono',monospace}
+.maxwarn{font-size:11px;color:var(--gold);margin-top:6px;font-family:'JetBrains Mono',monospace;display:none}
 
 .config-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .chair-opts{display:flex;flex-wrap:wrap;gap:6px}
-.cbtn{display:flex;align-items:center;gap:7px;padding:8px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;color:var(--text2);transition:border-color .15s;user-select:none}
+.cbtn{display:flex;align-items:center;gap:7px;padding:8px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;color:var(--text2);transition:border-color .15s;user-select:none;font-family:'JetBrains Mono',monospace}
 .cbtn:hover{border-color:var(--border2)}
 .cbtn.active{border-color:var(--gold);color:var(--text)}
 .cbtn .cd{width:7px;height:7px;border-radius:50%;flex-shrink:0}
@@ -119,7 +119,7 @@ textarea#q:focus{outline:none;border-color:var(--border2)}
 .spin{display:inline-block;width:12px;height:12px;border:1.5px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 .spin-sm{width:10px;height:10px}
 
-@media(max-width:620px){.rv-grid{grid-template-columns:1fr}.config-row{grid-template-columns:1fr}.hdr h1{font-size:38px}.mgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.rv-grid{grid-template-columns:1fr}.config-row{grid-template-columns:1fr}.hdr h1{font-size:38px}}
 </style>
 </head>
 <body>
@@ -128,11 +128,10 @@ textarea#q:focus{outline:none;border-color:var(--border2)}
 <div class="hdr">
   <h1><em>Quorum</em></h1>
   <div class="tagline">Multi-LLM Council · Real Models · Zero Cost</div>
-  <div class="powered">powered by <span>Groq</span> — free API, 2–3 second responses</div>
+  <div class="powered">powered by <span>Groq</span> — free tier, 2–3 second responses</div>
   <div class="divider"></div>
 </div>
 
-<!-- API Key -->
 <div class="card">
   <div class="card-hdr" onclick="toggleCard('kbody','kchev')">
     <div class="card-hdr-left">
@@ -144,23 +143,21 @@ textarea#q:focus{outline:none;border-color:var(--border2)}
   <div id="kbody" class="card-body">
     <div class="kf">
       <label>API KEY</label>
-      <input type="password" id="key" placeholder="gsk_..." oninput="onKeyInput()">
+      <input type="password" id="key" placeholder="gsk_...">
     </div>
     <div class="knote">
-      Free account at <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys → Create key.<br>
-      Generous free tier — no credit card needed. Key stays in your browser only, never stored.
+      Free at <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys → Create key. No credit card needed.<br>
+      Key stays in this browser tab only, never stored or sent anywhere else.
     </div>
   </div>
 </div>
 
-<!-- Status -->
 <div class="sbar">
   <span class="sdot pulse amber" id="sdot"></span>
-  <span class="stext" id="stext">Enter your Groq API key above to load available models</span>
+  <span class="stext" id="stext">Enter your Groq API key above, then click Load Models</span>
   <button class="srefresh" onclick="loadModels()">↺ Load Models</button>
 </div>
 
-<!-- Council config -->
 <div class="card">
   <div class="card-hdr" onclick="toggleCard('cbody','cchev')">
     <div class="card-hdr-left">
@@ -170,12 +167,16 @@ textarea#q:focus{outline:none;border-color:var(--border2)}
     <span class="cchev" id="cchev">▲</span>
   </div>
   <div id="cbody" class="card-body">
-    <div class="cfg-lbl">Council Members — select 2 to 4 models</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;margin-bottom:8px;">
+      <div class="cfg-lbl" style="margin:0">Council Members — select 2 to 4</div>
+      <button onclick="autoPick()" style="font-size:11px;font-family:'JetBrains Mono',monospace;background:var(--gold);color:#000;border:none;padding:5px 12px;border-radius:5px;cursor:pointer;font-weight:500;">⭐ Best Council</button>
+    </div>
     <div id="mgrid" class="mgrid">
       <div class="empty" style="padding:12px 0;grid-column:1/-1">Enter API key and click Load Models</div>
     </div>
+    <div id="maxwarn" class="maxwarn">Maximum 4 models selected</div>
     <div id="grid-help" style="font-size:11px;color:var(--text3);margin-top:8px;display:none">
-      These are real different models — Llama, Mistral, Gemma, DeepSeek. Each has genuinely different reasoning.
+      ⭐ = recommended · Mix different families (Llama, Gemma, DeepSeek, Qwen) for the best debates · Click <strong style="color:var(--gold)">⭐ Best Council</strong> to auto-pick
     </div>
 
     <div class="config-row">
@@ -236,17 +237,6 @@ textarea#q:focus{outline:none;border-color:var(--border2)}
 
 </div>
 <script>
-// ── Groq models — curated list of best free models ──
-const GROQ_MODELS = [
-  { id:'llama-3.3-70b-versatile',       name:'Llama 3.3 70B',       org:'Meta',      desc:'Best overall — strong reasoning and knowledge' },
-  { id:'llama-3.1-8b-instant',          name:'Llama 3.1 8B',         org:'Meta',      desc:'Fast lightweight Llama — good for quick takes' },
-  { id:'mixtral-8x7b-32768',            name:'Mixtral 8x7B',         org:'Mistral',   desc:'Mixture-of-experts — sharp and efficient' },
-  { id:'gemma2-9b-it',                  name:'Gemma 2 9B',           org:'Google',    desc:'Analytical and precise, strong on facts' },
-  { id:'deepseek-r1-distill-llama-70b', name:'DeepSeek R1 70B',      org:'DeepSeek',  desc:'Chain-of-thought reasoning — best for hard problems' },
-  { id:'llama-3.1-70b-versatile',       name:'Llama 3.1 70B',        org:'Meta',      desc:'Highly capable large Llama model' },
-  { id:'qwen-qwq-32b',                  name:'Qwen QwQ 32B',         org:'Alibaba',   desc:'Strong reasoning, different training data' },
-];
-
 const VERDICTS = {
   synthesis:  `Synthesize all responses into the single best possible answer. Weave together the strongest insights. Acknowledge where models agreed and explain how you resolved disagreements. One cohesive, well-reasoned answer.`,
   decisive:   `Review all responses and peer reviews. Identify the strongest position. State your verdict clearly and decisively. Where there is genuine disagreement, pick a side and defend it. Be authoritative and direct.`,
@@ -255,73 +245,252 @@ const VERDICTS = {
   concise:    `Deliver the essential answer in three paragraphs or fewer. No preamble, no restating the question, no listing what others said. Just the sharpest most insightful version of the final answer.`
 };
 
+// Model catalogue — matched by substring against live Groq model IDs
+// Sources: groq.com/pricing + console.groq.com/docs/models (March 2026)
+const MODEL_CATALOGUE = [
+  // ── Flagship / Best ──
+  { match: 'gpt-oss-120b',
+    name: 'GPT-OSS 120B', org: 'OpenAI (open-weight)', tier: '⭐ flagship',
+    desc: "OpenAI's 120B open-weight model. Strongest reasoning on Groq. Best for chairman role.",
+    good: 'chairman', speed: '500 t/s' },
+  { match: 'kimi-k2',
+    name: 'Kimi K2', org: 'Moonshot AI', tier: '⭐ flagship',
+    desc: '1 trillion parameter MoE. Exceptional coding, math, and multi-step reasoning. Largest model on Groq.',
+    good: 'chairman', speed: '200 t/s' },
+  { match: 'llama-4-maverick',
+    name: 'Llama 4 Maverick', org: 'Meta', tier: '⭐ top pick',
+    desc: 'Llama 4 with 128 experts. Meta\'s most capable open model. Excellent all-round performance.',
+    good: 'chairman', speed: '562 t/s' },
+  { match: 'llama-4-scout',
+    name: 'Llama 4 Scout', org: 'Meta', tier: '⭐ fast + capable',
+    desc: 'Llama 4 with 16 experts. Great balance of speed and quality. 128k context.',
+    good: 'council', speed: '594 t/s' },
+  { match: 'qwen3-32b',
+    name: 'Qwen3 32B', org: 'Alibaba', tier: '⭐ reasoning',
+    desc: 'Alibaba\'s latest 32B model. Hybrid thinking mode. Exceptional at analysis and step-by-step reasoning.',
+    good: 'chairman', speed: '662 t/s' },
+  { match: 'llama-3.3-70b',
+    name: 'Llama 3.3 70B', org: 'Meta', tier: '⭐ proven',
+    desc: 'Meta\'s best production Llama. Highly reliable, strong on knowledge and synthesis. Battle-tested.',
+    good: 'chairman', speed: '394 t/s' },
+  // ── Reasoning specialists ──
+  { match: 'qwen-qwq',
+    name: 'Qwen QwQ 32B', org: 'Alibaba', tier: '🧠 deep reasoning',
+    desc: 'Dedicated reasoning model. Thinks step-by-step before answering. Best for hard logical problems.',
+    good: 'chairman', speed: '~400 t/s' },
+  { match: 'deepseek-r1',
+    name: 'DeepSeek R1', org: 'DeepSeek', tier: '🧠 deep reasoning',
+    desc: 'Chain-of-thought specialist. Shows its reasoning process. Excellent for math, logic, and analysis.',
+    good: 'chairman', speed: '~300 t/s' },
+  // ── Fast / lightweight ──
+  { match: 'gpt-oss-20b',
+    name: 'GPT-OSS 20B', org: 'OpenAI (open-weight)', tier: '⚡ fast',
+    desc: "OpenAI's 20B open-weight model. Very fast at 1000 t/s. Good for quick takes in the council.",
+    good: 'council', speed: '1000 t/s' },
+  { match: 'llama-3.1-8b',
+    name: 'Llama 3.1 8B', org: 'Meta', tier: '⚡ fastest',
+    desc: 'Fastest model on Groq at 840 t/s. Light but surprisingly capable. Good for council diversity.',
+    good: 'council', speed: '840 t/s' },
+  { match: 'gemma2-9b',
+    name: 'Gemma 2 9B', org: 'Google', tier: 'factual',
+    desc: 'Google\'s efficient 9B model. Well-calibrated, strong factual grounding. Good contrarian voice.',
+    good: 'council', speed: '~500 t/s' },
+  { match: 'gemma-3',
+    name: 'Gemma 3', org: 'Google', tier: 'analytical',
+    desc: 'Latest Google Gemma. Sharp, efficient, strong analytical reasoning.',
+    good: 'council', speed: '~400 t/s' },
+  // ── Compound / tool-use ──
+  { match: 'compound',
+    name: 'Groq Compound', org: 'Groq', tier: '🔧 tools',
+    desc: 'Groq\'s compound system with built-in web search and code execution. Unique capabilities.',
+    good: 'council', speed: 'variable' },
+  // ── Safeguard / vision — exclude from council ──
+  { match: 'safeguard', name: '', org: '', tier: '', desc: '', good: 'exclude', speed: '' },
+  { match: 'llama-guard', name: '', org: '', tier: '', desc: '', good: 'exclude', speed: '' },
+  { match: 'vision', name: '', org: '', tier: '', desc: '', good: 'exclude', speed: '' },
+];
+
+function getModelInfo(id){
+  const lower = id.toLowerCase();
+  for(const info of MODEL_CATALOGUE){
+    if(lower.includes(info.match)){
+      return info;
+    }
+  }
+  // Unknown model — show it but with generic desc
+  return { name: id, org: '', tier: '', desc: 'LLM available on Groq. No description on file yet.', good: 'council', speed: '' };
+}
+
+// Auto-pick best council: prefer top-pick/reasoning models, diversity of families
+function autoPick(){
+  if(liveModels.length===0) return;
+  selectedModels=[];
+  chairModel=null;
+
+  // Score each model
+  const scored = liveModels
+    .filter(m => getModelInfo(m.id).good !== 'exclude')
+    .map(m=>{
+      const info=getModelInfo(m.id);
+      let score=0;
+      if(info.tier&&info.tier.includes('⭐')) score+=4;
+      if(info.tier&&info.tier.includes('🧠')) score+=3;
+      if(info.good==='chairman') score+=2;
+      if(info.tier&&info.tier.includes('fastest')) score-=2;
+      if(info.tier&&info.tier.includes('fast')&&!info.tier.includes('⭐')) score-=1;
+      // Identify family for diversity
+      let family='other';
+      const id=m.id.toLowerCase();
+      if(id.includes('llama-4')) family='llama4';
+      else if(id.includes('llama')) family='llama3';
+      else if(id.includes('qwen')) family='qwen';
+      else if(id.includes('deepseek')) family='deepseek';
+      else if(id.includes('gemma')) family='gemma';
+      else if(id.includes('kimi')) family='kimi';
+      else if(id.includes('gpt-oss')) family='gptoss';
+      else if(id.includes('compound')) family='compound';
+      return{...m, score, family, info};
+    }).sort((a,b)=>b.score-a.score);
+
+  // Pick top 4 with family diversity
+  const families=new Set();
+  for(const m of scored){
+    if(selectedModels.length>=4) break;
+    const fam=m.family;
+    if(families.has(fam) && selectedModels.length>=2) continue;
+    selectedModels.push(m.id);
+    families.add(fam);
+  }
+  if(selectedModels.length===0) selectedModels=liveModels.slice(0,4).map(m=>m.id);
+
+  // Pick best chairman — prefer reasoning/large models
+  const chairCandidates=selectedModels.filter(id=>{
+    const info=getModelInfo(id);
+    return info.good==='chairman'||info.tag.includes('⭐');
+  });
+  chairModel=chairCandidates[0]||selectedModels[0];
+
+  renderGrid();
+  // Scroll to council setup
+  document.getElementById('cbody').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
 const COLORS = ['var(--c0)','var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)'];
-let availableModels = [];
-let selectedModels = []; // array of model ids
+let liveModels = [];    // fetched from Groq API
+let selectedModels = [];
 let chairModel = null;
 let selectedVerdict = 'synthesis';
 const st = { responses:{}, activeTab:null };
 
-function getKey(){ return document.getElementById('key').value.trim(); }
-function mColor(id){ const i=selectedModels.indexOf(id); return i>=0?COLORS[i%COLORS.length]:'var(--text3)'; }
-function mName(id){ return GROQ_MODELS.find(m=>m.id===id)?.name || id; }
-function mOrg(id){ return GROQ_MODELS.find(m=>m.id===id)?.org || ''; }
-
-function onKeyInput(){
-  const key = getKey();
-  if(key.startsWith('gsk_') && key.length > 20){
-    setStat('amber','Key entered — click Load Models',true);
-  }
+function getKey(){
+  // Strip any non-ASCII / non-printable characters that break HTTP headers
+  return document.getElementById('key').value
+    .trim()
+    .replace(/[^\x20-\x7E]/g, '');
 }
+function mColor(id){ const i=selectedModels.indexOf(id); return i>=0?COLORS[i%COLORS.length]:'var(--text3)'; }
+function mLabel(id){ const m=liveModels.find(x=>x.id===id); return m?.label||id; }
+function mOrg(id){ const m=liveModels.find(x=>x.id===id); return m?.org||''; }
 
-function setStat(c,t,pulse){
+function setStat(c,t,pulse=false){
   const d=document.getElementById('sdot');
   d.className='sdot '+c+(pulse?' pulse':'');
   document.getElementById('stext').textContent=t;
 }
 
+// ── Fetch models live from Groq API ──
 async function loadModels(){
   const key=getKey();
   if(!key){ alert('Enter your Groq API key first'); return; }
-  setStat('amber','Verifying key & loading models...',true);
+  setStat('amber','Verifying key & loading current models...',true);
   try{
-    // Verify key by fetching model list
     const r=await fetch('https://api.groq.com/openai/v1/models',{
-      headers:{'Authorization':'Bearer '+key}
+      headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'}
     });
-    if(!r.ok) throw new Error(`Invalid key (HTTP ${r.status})`);
-    const data=await r.json();
-    // Filter to our curated list — only show ones Groq currently serves
-    const available=new Set((data.models||[]).map(m=>m.id));
-    availableModels=GROQ_MODELS.filter(m=>available.has(m.id));
-    if(availableModels.length===0){
-      // Fallback — just show all curated models
-      availableModels=GROQ_MODELS;
+    if(!r.ok){
+      const e=await r.json();
+      throw new Error(e.error?.message||`HTTP ${r.status} — check your key`);
     }
-    setStat('green',`Groq connected · ${availableModels.length} models available · responses in ~2–3s`,false);
+    const data=await r.json();
+    const rawPreview = JSON.stringify(data).slice(0,300);
+    console.log('Groq raw response:', rawPreview);
+    const allModels=(data.data||data.models||[]);
+    console.log('Models found:', allModels.length);
+    if(allModels.length===0){
+      // Show raw response so we can debug
+      setStat('red',`Got 0 models. Raw response: ${rawPreview}`,false);
+      return;
+    }
+
+    // Filter to chat-compatible models only
+    liveModels=allModels
+      .filter(m=>{
+        const id=m.id.toLowerCase();
+        // Exclude non-chat models
+        return !['whisper','tts','playai','distil-whisper'].some(kw=>id.includes(kw));
+      })
+      .map(m=>{
+        // Derive a human label and org from the model ID
+        const id=m.id;
+        let label=id;
+        let org='';
+        if(id.includes('llama'))   { label=id; org='Meta'; }
+        if(id.includes('gemma'))   { label=id; org='Google'; }
+        if(id.includes('qwen'))    { label=id; org='Alibaba'; }
+        if(id.includes('deepseek')){ label=id; org='DeepSeek'; }
+        if(id.includes('mixtral')) { label=id; org='Mistral'; }
+        if(id.includes('mistral')) { label=id; org='Mistral'; }
+        if(id.includes('gpt-oss')) { label=id; org='OpenAI'; }
+        if(id.includes('phi'))     { label=id; org='Microsoft'; }
+        if(id.includes('compound')){ label=id; org='Groq'; }
+        return { id, label, org };
+      })
+      .sort((a,b)=>a.id.localeCompare(b.id));
+
+    if(liveModels.length===0){
+      setStat('red',`Filter removed all models. Check console for details.`,false);
+      return;
+    }
+
+    setStat('green',`Connected · ${liveModels.length} chat models available · responses in ~2–5s`,false);
     renderGrid();
+
     // Collapse key card
     document.getElementById('kbody').style.display='none';
     document.getElementById('kchev').textContent='▼';
   }catch(e){
-    setStat('red',`Connection failed: ${e.message}`,false);
+    setStat('red',`Failed: ${e.message}`,false);
   }
 }
 
 function renderGrid(){
   const g=document.getElementById('mgrid');
   document.getElementById('grid-help').style.display='block';
-  g.innerHTML=availableModels.map(m=>{
+
+  // Filter out excluded models
+  const displayModels = liveModels.filter(m => getModelInfo(m.id).good !== 'exclude');
+
+  g.innerHTML=displayModels.map(m=>{
     const sel=selectedModels.includes(m.id);
     const isChair=m.id===chairModel;
-    return`<div class="mcard${sel?' sel':''}" onclick="toggleModel('${m.id}')">
+    const info=getModelInfo(m.id);
+    const isTop=info.tier&&(info.tier.includes('⭐')||info.tier.includes('🧠'));
+    const tierHtml=info.tier?`<span style="font-size:9px;background:var(--bg);border:1px solid ${isTop?'var(--gold)':'var(--border2)'};padding:1px 5px;border-radius:3px;color:${isTop?'var(--gold2)':'var(--text3)'};">${info.tier}</span>`:'';
+    const speedHtml=info.speed?`<span style="font-size:9px;color:var(--text3)">${info.speed}</span>`:'';
+    return`<div class="mcard${sel?' sel':''}" onclick="toggleModel('${m.id.replace(/'/g,"\\'")}')">
       ${isChair?'<span class="crown">♛ chair</span>':''}
-      <div class="mn">${m.name}</div>
-      <div class="md">${m.org} · ${m.desc}</div>
+      <div class="mn">${info.name||m.id}</div>
+      <div style="display:flex;align-items:center;gap:5px;margin-top:4px;flex-wrap:wrap;">
+        ${m.org||info.org?`<span style="font-size:10px;color:var(--text2)">${info.org||m.org}</span>`:''}
+        ${tierHtml}
+        ${speedHtml}
+      </div>
+      <div style="font-size:10px;color:var(--text3);margin-top:5px;line-height:1.45;">${info.desc}</div>
       <div class="mck">✓</div>
     </div>`;
   }).join('');
   document.getElementById('mpill').textContent=selectedModels.length>0?`${selectedModels.length} selected`:'select models';
+  document.getElementById('maxwarn').style.display=selectedModels.length>=4?'block':'none';
   renderChairs();
   updateBtn();
 }
@@ -345,11 +514,12 @@ function renderChairs(){
     document.getElementById('chair-desc').textContent='';return;
   }
   g.innerHTML=selectedModels.map((id,i)=>{
-    return`<div class="cbtn${id===chairModel?' active':''}" onclick="selectChair('${id}')">
-      <span class="cd" style="background:${COLORS[i%COLORS.length]}"></span>${mName(id)}</div>`;
+    const short=id.split('/').pop().split(':')[0];
+    return`<div class="cbtn${id===chairModel?' active':''}" onclick="selectChair('${id.replace(/'/g,"\\'")}')">
+      <span class="cd" style="background:${COLORS[i%COLORS.length]}"></span>${short}</div>`;
   }).join('');
   document.getElementById('chair-desc').textContent=chairModel
-    ?`${mName(chairModel)} (${mOrg(chairModel)}) will synthesize all responses into the final verdict.`:'';
+    ?`${chairModel} will synthesize all responses into the final verdict.`:'';
 }
 
 function selectChair(id){ chairModel=id; renderGrid(); }
@@ -381,16 +551,18 @@ async function groqChat(modelId, messages, key, maxTokens=2000){
   return d.choices?.[0]?.message?.content||'';
 }
 
-// ── Tab rendering ──
+function mShort(id){ return id.split('/').pop(); }
+
 function buildTabs(){
   document.getElementById('tabs').innerHTML=selectedModels.map(id=>{
     const active=st.activeTab===id; const color=mColor(id);
-    return`<div class="tab${active?' active':''}" data-id="${id}" onclick="switchTab('${id}')"
+    const safe=id.replace(/[^a-z0-9]/gi,'_');
+    return`<div class="tab${active?' active':''}" data-id="${esc(id)}" onclick="switchTab(this.dataset.id)"
       style="border-bottom-color:${active?color:'transparent'}">
       <span class="tab-dot" style="background:${color}"></span>
-      ${mName(id)}
+      ${mShort(id)}
       ${id===chairModel?'<span style="font-size:9px;color:var(--gold)">♛</span>':''}
-      <span id="ti__${id.replace(/[^a-z0-9]/gi,'_')}"></span>
+      <span id="ti__${safe}"></span>
     </div>`;
   }).join('');
   renderTab(st.activeTab);
@@ -417,16 +589,16 @@ function setTabIcon(id,state){
 function renderTab(id){
   const el=document.getElementById('tc'); if(!el)return;
   if(st.responses[id]){ el.innerHTML=`<div class="prose">${esc(st.responses[id])}</div>`; return; }
-  if(st.loadingTab===id){ el.innerHTML=`<div class="dim"><span class="spin"></span>${mName(id)} thinking...</div>`; return; }
+  if(st.loadingTab===id){ el.innerHTML=`<div class="dim"><span class="spin"></span>${mShort(id)} thinking...</div>`; return; }
   el.innerHTML='<div class="dim">Waiting...</div>';
 }
 
 function buildRvGrid(){
   document.getElementById('rvg').innerHTML=selectedModels.map(id=>{
-    const color=mColor(id);
+    const color=mColor(id); const safe=id.replace(/[^a-z0-9]/gi,'_');
     return`<div class="rv-card">
-      <div class="rv-hdr"><span class="rv-name" style="color:${color}">${mName(id)}'s review</span><span id="rsp__${id.replace(/[^a-z0-9]/gi,'_')}"></span></div>
-      <div id="rv__${id.replace(/[^a-z0-9]/gi,'_')}" class="prose-sm" style="color:var(--text3)">Waiting...</div>
+      <div class="rv-hdr"><span class="rv-name" style="color:${color}">${mShort(id)}'s review</span><span id="rsp__${safe}"></span></div>
+      <div id="rv__${safe}" class="prose-sm" style="color:var(--text3)">Waiting...</div>
     </div>`;
   }).join('');
 }
@@ -461,31 +633,27 @@ async function run(){
 
   const p1=`Answer the following question with depth, precision, and genuine insight. Give a thorough, complete answer.\n\nQuestion: ${q}`;
 
-  // ── Stage 1: each model answers sequentially ──
+  // Stage 1
   setRS('Stage 1 — gathering opinions...');
   document.getElementById('s1').style.display='block';
   buildTabs();
 
   for(let i=0;i<selectedModels.length;i++){
     const id=selectedModels[i];
-    st.loadingTab=id;
-    setTabIcon(id,'spin');
-    switchTab(id);
-    setRS(`Stage 1 — ${mName(id)} thinking... (${i+1}/${selectedModels.length})`);
+    st.loadingTab=id; setTabIcon(id,'spin'); switchTab(id);
+    setRS(`Stage 1 — ${mShort(id)} thinking... (${i+1}/${selectedModels.length})`);
     try{
       st.responses[id]=await groqChat(id,[
         {role:'system',content:'You are a thoughtful AI assistant. Answer with depth, precision, and genuine intellectual engagement. Be substantive and complete.'},
         {role:'user',content:p1}
       ],key,2000);
     }catch(e){ st.responses[id]=`[Error: ${e.message}]`; }
-    st.loadingTab=null;
-    setTabIcon(id,'done');
-    renderTab(id);
+    st.loadingTab=null; setTabIcon(id,'done'); renderTab(id);
     tick();
-    if(i<selectedModels.length-1) await sleep(500);
+    if(i<selectedModels.length-1) await sleep(600);
   }
 
-  // ── Stage 2: peer review ──
+  // Stage 2
   setRS('Stage 2 — peer review...');
   document.getElementById('s2').style.display='block';
   buildRvGrid();
@@ -494,7 +662,7 @@ async function run(){
   for(let i=0;i<selectedModels.length;i++){
     const id=selectedModels[i];
     setRvLoad(id);
-    setRS(`Stage 2 — ${mName(id)} reviewing peers... (${i+1}/${selectedModels.length})`);
+    setRS(`Stage 2 — ${mShort(id)} reviewing peers... (${i+1}/${selectedModels.length})`);
     const others=shuffle(selectedModels.filter(x=>x!==id));
     const bundle=others.map((o,j)=>`Response ${LABS[j]}:\n${st.responses[o]||'[No response]'}`).join('\n\n---\n\n');
     const rp=`You are reviewing ${others.length} anonymous AI responses to this question:\n\n"${q}"\n\n${bundle}\n\nPlease:\n1. Note the key strength of each response (${LABS.slice(0,others.length).join(', ')})\n2. Flag any factual errors or important gaps\n3. Rank them best to worst with a one-sentence justification each\n\nBe critical and honest. Under 250 words.`;
@@ -506,27 +674,27 @@ async function run(){
       setRv(id,rv,false);
     }catch(e){ setRv(id,`Review failed: ${e.message}`,true); }
     tick();
-    if(i<selectedModels.length-1) await sleep(500);
+    if(i<selectedModels.length-1) await sleep(600);
   }
 
-  // ── Stage 3: chairman ──
-  const cn=mName(chairModel); const cc=mColor(chairModel);
+  // Stage 3
+  const cs=mShort(chairModel); const cc=mColor(chairModel);
   const vstyle=document.querySelector('.vbtn.active .vn')?.textContent||'';
-  setRS(`Stage 3 — ${cn} deliberating...`);
+  setRS(`Stage 3 — ${cs} deliberating...`);
   document.getElementById('s3').style.display='block';
 
   const badge=document.getElementById('s3badge');
-  badge.textContent=cn; badge.style.borderColor=cc; badge.style.color=cc;
+  badge.textContent=cs; badge.style.borderColor=cc; badge.style.color=cc;
   document.getElementById('fdot').style.background=cc;
-  document.getElementById('fname').textContent=cn+' ('+mOrg(chairModel)+')';
+  document.getElementById('fname').textContent=chairModel;
   document.getElementById('fstyle').textContent=`· ${vstyle}`;
-  document.getElementById('ft').innerHTML=`<div class="dim"><span class="spin"></span>${cn} deliberating...</div>`;
+  document.getElementById('ft').innerHTML=`<div class="dim"><span class="spin"></span>${cs} deliberating...</div>`;
 
-  const allR=selectedModels.map(id=>`### ${mName(id)} (${mOrg(id)})\n${st.responses[id]||'[No response]'}`).join('\n\n---\n\n');
+  const allR=selectedModels.map(id=>`### ${id}\n${st.responses[id]||'[No response]'}`).join('\n\n---\n\n');
   const allRv=selectedModels.map(id=>{
     const safe=id.replace(/[^a-z0-9]/gi,'_');
     const el=document.getElementById('rv__'+safe);
-    return el?`### ${mName(id)}'s review:\n${el.textContent}`:'';
+    return el?`### ${id}'s review:\n${el.textContent}`:'';
   }).filter(Boolean).join('\n\n---\n\n');
 
   const chairP=`You are chairing a deliberation council. ${selectedModels.length} AI models independently answered a question and peer-reviewed each other. Deliver the definitive final verdict.\n\nOriginal question: ${q}\n\n== Individual responses ==\n${allR}\n\n== Peer reviews ==\n${allRv}\n\n== Your instructions ==\n${VERDICTS[selectedVerdict]}\n\nDeliver the Chairman's complete verdict now.`;
