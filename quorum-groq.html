@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quorum — Multi-LLM Council (Groq)</title>
+<title>Quorum — Multi-LLM Council</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -58,6 +58,16 @@ body{background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;font-w
 .mcard.sel .mck{background:var(--gold);border-color:var(--gold);color:#000}
 .mcard .crown{position:absolute;bottom:-1px;right:-1px;font-size:9px;background:var(--gold2);color:#000;padding:1px 5px;border-radius:var(--r) 0 var(--r) 0;font-family:'JetBrains Mono',monospace}
 .maxwarn{font-size:11px;color:var(--gold);margin-top:6px;font-family:'JetBrains Mono',monospace;display:none}
+.provider-tabs{display:flex;gap:0;margin-bottom:14px;border-bottom:1px solid var(--border)}
+.ptab{padding:10px 20px;font-size:12px;font-family:'JetBrains Mono',monospace;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s;user-select:none}
+.ptab.active{color:var(--text);border-bottom-color:var(--gold)}
+.ptab .pbadge{font-size:9px;padding:1px 6px;border-radius:10px;margin-left:6px;font-family:'JetBrains Mono',monospace}
+.ptab.active .pfree{background:#1a3a1a;color:#4ade80;border:1px solid #2a5a2a}
+.ptab.active .pprem{background:#3a2a0a;color:var(--gold2);border:1px solid var(--gold)}
+.ptab .pfree{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.ptab .pprem{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.provider-panel{display:none}
+.provider-panel.active{display:block}
 
 .config-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .chair-opts{display:flex;flex-wrap:wrap;gap:6px}
@@ -127,34 +137,76 @@ textarea#q:focus{outline:none;border-color:var(--border2)}
 
 <div class="hdr">
   <h1><em>Quorum</em></h1>
-  <div class="tagline">Multi-LLM Council · Real Models · Zero Cost</div>
-  <div class="powered">powered by <span>Groq</span> — free tier, 2–3 second responses</div>
+  <div class="tagline">Multi-LLM Council · Free &amp; Premium Tiers</div>
+  <div class="powered"><span>Free tier:</span> Groq open-weight models &nbsp;·&nbsp; <span>Premium:</span> GPT-4o · Claude · Gemini · Grok via OpenRouter</div>
   <div class="divider"></div>
 </div>
 
-<div class="card">
-  <div class="card-hdr" onclick="toggleCard('kbody','kchev')">
-    <div class="card-hdr-left">
-      <h2>Groq API Key</h2>
-      <span class="cpill">free at console.groq.com</span>
-    </div>
-    <span class="cchev" id="kchev">▲</span>
+<!-- Provider selector -->
+<div class="provider-tabs">
+  <div class="ptab active" id="ptab-groq" onclick="switchProvider('groq')">
+    Groq
+    <span class="pbadge pfree">Free</span>
   </div>
-  <div id="kbody" class="card-body">
-    <div class="kf">
-      <label>API KEY</label>
-      <input type="password" id="key" placeholder="gsk_...">
+  <div class="ptab" id="ptab-openrouter" onclick="switchProvider('openrouter')">
+    OpenRouter
+    <span class="pbadge pprem">GPT-4o · Claude · Gemini · Grok</span>
+  </div>
+</div>
+
+<!-- Groq panel -->
+<div class="provider-panel active" id="panel-groq">
+  <div class="card">
+    <div class="card-hdr" onclick="toggleCard('kbody-groq','kchev-groq')">
+      <div class="card-hdr-left">
+        <h2>Groq API Key</h2>
+        <span class="cpill">free · console.groq.com</span>
+      </div>
+      <span class="cchev" id="kchev-groq">▲</span>
     </div>
-    <div class="knote">
-      Free at <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys → Create key. No credit card needed.<br>
-      Key stays in this browser tab only, never stored or sent anywhere else.
+    <div id="kbody-groq" class="card-body">
+      <div class="kf">
+        <label>API KEY</label>
+        <input type="password" id="key-groq" placeholder="gsk_...">
+      </div>
+      <div class="knote">
+        Free at <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys. No credit card needed.<br>
+        Models: Llama 4, Kimi K2, Qwen3, GPT-OSS, DeepSeek R1 and more. ~2–5s responses.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OpenRouter panel -->
+<div class="provider-panel" id="panel-openrouter">
+  <div class="card">
+    <div class="card-hdr" onclick="toggleCard('kbody-or','kchev-or')">
+      <div class="card-hdr-left">
+        <h2>OpenRouter API Key</h2>
+        <span class="cpill">GPT-4o · Claude · Gemini · Grok</span>
+      </div>
+      <span class="cchev" id="kchev-or">▲</span>
+    </div>
+    <div id="kbody-or" class="card-body">
+      <div class="kf">
+        <label>OPENROUTER API KEY</label>
+        <input type="password" id="key-or" placeholder="sk-or-v1-...">
+      </div>
+      <div class="kf">
+        <label>WORKER URL (your Cloudflare proxy)</label>
+        <input type="text" id="worker-url" placeholder="https://quorum-proxy.YOUR-NAME.workers.dev">
+      </div>
+      <div class="knote">
+        Key at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a> — pay per token (~$0.01–0.05 per full council session).<br>
+        Worker needed for browser CORS — see <a href="https://github.com/harryz1995/quorum#openrouter-setup" target="_blank">setup guide</a>. Deploy free at <a href="https://workers.cloudflare.com" target="_blank">workers.cloudflare.com</a>.
+      </div>
     </div>
   </div>
 </div>
 
 <div class="sbar">
   <span class="sdot pulse amber" id="sdot"></span>
-  <span class="stext" id="stext">Enter your Groq API key above, then click Load Models</span>
+  <span class="stext" id="stext">Enter your API key above, then click Load Models</span>
   <button class="srefresh" onclick="loadModels()">↺ Load Models</button>
 </div>
 
@@ -382,11 +434,31 @@ let chairModel = null;
 let selectedVerdict = 'synthesis';
 const st = { responses:{}, activeTab:null };
 
+// ── Provider state ──
+let activeProvider = 'groq';
+
+function switchProvider(p){
+  activeProvider=p;
+  document.getElementById('ptab-groq').classList.toggle('active',p==='groq');
+  document.getElementById('ptab-openrouter').classList.toggle('active',p==='openrouter');
+  document.getElementById('panel-groq').classList.toggle('active',p==='groq');
+  document.getElementById('panel-openrouter').classList.toggle('active',p==='openrouter');
+  selectedModels=[];chairModel=null;liveModels=[];
+  document.getElementById('mgrid').innerHTML='<div class="empty" style="padding:12px 0;grid-column:1/-1">Enter API key and click Load Models</div>';
+  document.getElementById('mpill').textContent='select models';
+  renderChairs();updateBtn();
+  setStat('amber','Enter your API key above, then click Load Models',true);
+}
+
 function getKey(){
-  // Strip any non-ASCII / non-printable characters that break HTTP headers
-  return document.getElementById('key').value
-    .trim()
-    .replace(/[^\x20-\x7E]/g, '');
+  const raw=activeProvider==='groq'
+    ?document.getElementById('key-groq').value
+    :document.getElementById('key-or').value;
+  return raw.trim().replace(/[^\x20-\x7E]/g,'');
+}
+function getWorkerUrl(){
+  const el=document.getElementById('worker-url');
+  return el?el.value.trim().replace(/\/+$/,''):'';
 }
 function mColor(id){ const i=selectedModels.indexOf(id); return i>=0?COLORS[i%COLORS.length]:'var(--text3)'; }
 function mLabel(id){ const m=liveModels.find(x=>x.id===id); return m?.label||id; }
@@ -401,63 +473,72 @@ function setStat(c,t,pulse=false){
 // ── Fetch models live from Groq API ──
 async function loadModels(){
   const key=getKey();
-  if(!key){ alert('Enter your Groq API key first'); return; }
-  setStat('amber','Verifying key & loading current models...',true);
+  if(!key){alert(`Enter your ${activeProvider==='groq'?'Groq':'OpenRouter'} API key first`);return;}
+  if(activeProvider==='openrouter'&&!getWorkerUrl()){alert('Enter your Cloudflare Worker URL too');return;}
+  setStat('amber','Verifying key & loading models...',true);
   try{
-    const r=await fetch('https://api.groq.com/openai/v1/models',{
-      headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'}
-    });
-    if(!r.ok){
-      const e=await r.json();
-      throw new Error(e.error?.message||`HTTP ${r.status} — check your key`);
-    }
-    const data=await r.json();
-    const rawPreview = JSON.stringify(data).slice(0,300);
-    console.log('Groq raw response:', rawPreview);
-    const allModels=(data.data||data.models||[]);
-    console.log('Models found:', allModels.length);
-    if(allModels.length===0){
-      // Show raw response so we can debug
-      setStat('red',`Got 0 models. Raw response: ${rawPreview}`,false);
-      return;
+    let allModels=[];
+    if(activeProvider==='groq'){
+      const r=await fetch('https://api.groq.com/openai/v1/models',{
+        headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'}
+      });
+      if(!r.ok){const e=await r.json();throw new Error(e.error?.message||`HTTP ${r.status}`);}
+      const data=await r.json();
+      allModels=data.data||data.models||[];
+    } else {
+      // OpenRouter public models list (no auth needed)
+      const r=await fetch('https://openrouter.ai/api/v1/models');
+      const data=await r.json();
+      const KNOWN=[
+        {id:'openai/gpt-4o',name:'GPT-4o',org:'OpenAI',tier:'⭐ flagship',desc:"OpenAI's best. Strong reasoning, excellent synthesis."},
+        {id:'openai/gpt-4o-mini',name:'GPT-4o Mini',org:'OpenAI',tier:'⚡ fast',desc:'Fast and capable. Great for council diversity.'},
+        {id:'anthropic/claude-sonnet-4-5',name:'Claude Sonnet 4.5',org:'Anthropic',tier:'⭐ flagship',desc:'Nuanced, honest reasoning. Excellent chairman.'},
+        {id:'anthropic/claude-haiku-4-5',name:'Claude Haiku 4.5',org:'Anthropic',tier:'⚡ fast',desc:'Fastest Claude. Good for quick perspectives.'},
+        {id:'google/gemini-2.0-flash-001',name:'Gemini 2.0 Flash',org:'Google',tier:'⭐ fast+capable',desc:'Google flagship. Strong factual grounding.'},
+        {id:'google/gemini-pro-1.5',name:'Gemini 1.5 Pro',org:'Google',tier:'large',desc:'Deep context, comprehensive analysis.'},
+        {id:'x-ai/grok-3',name:'Grok-3',org:'xAI',tier:'⭐ flagship',desc:'Bold, contrarian. Challenges consensus views.'},
+        {id:'x-ai/grok-3-mini',name:'Grok-3 Mini',org:'xAI',tier:'⚡ fast',desc:'Fast Grok. Direct and decisive.'},
+        {id:'meta-llama/llama-4-maverick',name:'Llama 4 Maverick',org:'Meta',tier:'⭐ open',desc:'Meta flagship open model. Excellent all-rounder.'},
+        {id:'deepseek/deepseek-r1',name:'DeepSeek R1',org:'DeepSeek',tier:'🧠 reasoning',desc:'Chain-of-thought reasoning specialist.'},
+      ];
+      const available=new Set((data.data||[]).map(m=>m.id));
+      allModels=KNOWN.filter(m=>available.has(m.id));
+      if(allModels.length===0) allModels=KNOWN; // fallback: show all known
     }
 
-    // Filter to chat-compatible models only
-    liveModels=allModels
-      .filter(m=>{
-        const id=m.id.toLowerCase();
-        // Exclude non-chat models
-        return !['whisper','tts','playai','distil-whisper'].some(kw=>id.includes(kw));
-      })
+    // Build liveModels — filter non-chat for Groq, use as-is for OpenRouter
+    liveModels = allModels
+      .filter(m=>!['whisper','tts','playai','distil-whisper'].some(kw=>(m.id||'').toLowerCase().includes(kw)))
       .map(m=>{
-        // Derive a human label and org from the model ID
-        const id=m.id;
-        let label=id;
-        let org='';
-        if(id.includes('llama'))   { label=id; org='Meta'; }
-        if(id.includes('gemma'))   { label=id; org='Google'; }
-        if(id.includes('qwen'))    { label=id; org='Alibaba'; }
-        if(id.includes('deepseek')){ label=id; org='DeepSeek'; }
-        if(id.includes('mixtral')) { label=id; org='Mistral'; }
-        if(id.includes('mistral')) { label=id; org='Mistral'; }
-        if(id.includes('gpt-oss')) { label=id; org='OpenAI'; }
-        if(id.includes('phi'))     { label=id; org='Microsoft'; }
-        if(id.includes('compound')){ label=id; org='Groq'; }
-        return { id, label, org };
+        const id=m.id||'';
+        let org=m.org||'';
+        if(!org){
+          if(id.includes('llama')) org='Meta';
+          else if(id.includes('gemma')) org='Google';
+          else if(id.includes('qwen')) org='Alibaba';
+          else if(id.includes('deepseek')) org='DeepSeek';
+          else if(id.includes('kimi')||id.includes('moonshot')) org='Moonshot AI';
+          else if(id.includes('gpt-oss')) org='OpenAI';
+          else if(id.includes('compound')) org='Groq';
+        }
+        return {...m, org};
       })
-      .sort((a,b)=>a.id.localeCompare(b.id));
+      .sort((a,b)=>(a.id||'').localeCompare(b.id||''));
 
     if(liveModels.length===0){
-      setStat('red',`Filter removed all models. Check console for details.`,false);
+      setStat('red','No models found — check your key',false);
       return;
     }
 
-    setStat('green',`Connected · ${liveModels.length} chat models available · responses in ~2–5s`,false);
+    const provLabel=activeProvider==='groq'?'Groq':'OpenRouter';
+    setStat('green',`${provLabel} connected · ${liveModels.length} models available`,false);
     renderGrid();
 
     // Collapse key card
-    document.getElementById('kbody').style.display='none';
-    document.getElementById('kchev').textContent='▼';
+    const kbid=activeProvider==='groq'?'kbody-groq':'kbody-or';
+    const kchid=activeProvider==='groq'?'kchev-groq':'kchev-or';
+    document.getElementById(kbid).style.display='none';
+    document.getElementById(kchid).textContent='▼';
   }catch(e){
     setStat('red',`Failed: ${e.message}`,false);
   }
@@ -537,15 +618,36 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function shuffle(a){ return[...a].sort(()=>Math.random()-.5); }
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
-async function groqChat(modelId, messages, key, maxTokens=2000){
-  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+function truncate(text,words=150){
+  const w=(text||'').split(/\s+/);
+  return w.length>words?w.slice(0,words).join(' ')+'...[truncated]':text;
+}
+
+function parseRetryDelay(msg){
+  const m=msg.match(/try again in ([\d.]+)s/i);
+  return m?Math.ceil(parseFloat(m[1]))*1000+800:10000;
+}
+
+async function groqChat(modelId,messages,key,maxTokens=800,attempt=0){
+  const endpoint=activeProvider==='openrouter'
+    ?getWorkerUrl()
+    :'https://api.groq.com/openai/v1/chat/completions';
+  const r=await fetch(endpoint,{
     method:'POST',
     headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
     body:JSON.stringify({model:modelId,messages,max_tokens:maxTokens,temperature:0.7})
   });
   if(!r.ok){
     const e=await r.json();
-    throw new Error(e.error?.message||`HTTP ${r.status}`);
+    const msg=e.error?.message||`HTTP ${r.status}`;
+    if((r.status===429||msg.includes('Rate limit'))&&attempt<4){
+      const m=msg.match(/try again in ([\d.]+)s/i);
+      const delay=m?Math.ceil(parseFloat(m[1]))*1000+800:10000;
+      setRS(`Rate limit — waiting ${Math.round(delay/1000)}s then retrying...`);
+      await sleep(delay);
+      return groqChat(modelId,messages,key,maxTokens,attempt+1);
+    }
+    throw new Error(msg);
   }
   const d=await r.json();
   return d.choices?.[0]?.message?.content||'';
@@ -627,6 +729,11 @@ async function run(){
   setProgress(2);
   document.getElementById('cbody').style.display='none';
   document.getElementById('cchev').textContent='▼';
+  // Also collapse active key panel
+  const _kbid=activeProvider==='groq'?'kbody-groq':'kbody-or';
+  const _kchid=activeProvider==='groq'?'kchev-groq':'kchev-or';
+  if(document.getElementById(_kbid)) document.getElementById(_kbid).style.display='none';
+  if(document.getElementById(_kchid)) document.getElementById(_kchid).textContent='▼';
 
   const TOTAL=selectedModels.length*2+1; let done=0;
   function tick(){ done++; setProgress(4+(done/TOTAL)*90); }
@@ -646,11 +753,11 @@ async function run(){
       st.responses[id]=await groqChat(id,[
         {role:'system',content:'You are a thoughtful AI assistant. Answer with depth, precision, and genuine intellectual engagement. Be substantive and complete.'},
         {role:'user',content:p1}
-      ],key,2000);
+      ],key,800);
     }catch(e){ st.responses[id]=`[Error: ${e.message}]`; }
     st.loadingTab=null; setTabIcon(id,'done'); renderTab(id);
     tick();
-    if(i<selectedModels.length-1) await sleep(600);
+    if(i<selectedModels.length-1) await sleep(2000);
   }
 
   // Stage 2
@@ -664,20 +771,22 @@ async function run(){
     setRvLoad(id);
     setRS(`Stage 2 — ${mShort(id)} reviewing peers... (${i+1}/${selectedModels.length})`);
     const others=shuffle(selectedModels.filter(x=>x!==id));
-    const bundle=others.map((o,j)=>`Response ${LABS[j]}:\n${st.responses[o]||'[No response]'}`).join('\n\n---\n\n');
+    const bundle=others.map((o,j)=>`Response ${LABS[j]}:\n${(st.responses[o]||'[No response]').split(' ').slice(0,120).join(' ')}`).join('\n\n---\n\n');
     const rp=`You are reviewing ${others.length} anonymous AI responses to this question:\n\n"${q}"\n\n${bundle}\n\nPlease:\n1. Note the key strength of each response (${LABS.slice(0,others.length).join(', ')})\n2. Flag any factual errors or important gaps\n3. Rank them best to worst with a one-sentence justification each\n\nBe critical and honest. Under 250 words.`;
     try{
       const rv=await groqChat(id,[
         {role:'system',content:'You are a critical, concise reviewer. Be direct and honest.'},
         {role:'user',content:rp}
-      ],key,600);
+      ],key,400);
       setRv(id,rv,false);
     }catch(e){ setRv(id,`Review failed: ${e.message}`,true); }
     tick();
-    if(i<selectedModels.length-1) await sleep(600);
+    if(i<selectedModels.length-1) await sleep(2000);
   }
 
-  // Stage 3
+  // Stage 3 — pause to let TPM window refill
+  setRS('Waiting for rate limits to clear...');
+  await sleep(12000);
   const cs=mShort(chairModel); const cc=mColor(chairModel);
   const vstyle=document.querySelector('.vbtn.active .vn')?.textContent||'';
   setRS(`Stage 3 — ${cs} deliberating...`);
@@ -690,11 +799,11 @@ async function run(){
   document.getElementById('fstyle').textContent=`· ${vstyle}`;
   document.getElementById('ft').innerHTML=`<div class="dim"><span class="spin"></span>${cs} deliberating...</div>`;
 
-  const allR=selectedModels.map(id=>`### ${id}\n${st.responses[id]||'[No response]'}`).join('\n\n---\n\n');
+  const allR=selectedModels.map(id=>`### ${id}\n${(st.responses[id]||'[No response]').split(' ').slice(0,150).join(' ')}`).join('\n\n---\n\n');
   const allRv=selectedModels.map(id=>{
     const safe=id.replace(/[^a-z0-9]/gi,'_');
     const el=document.getElementById('rv__'+safe);
-    return el?`### ${id}'s review:\n${el.textContent}`:'';
+    return el?`### ${id}'s review:\n${el.textContent.split(' ').slice(0,80).join(' ')}`:'';
   }).filter(Boolean).join('\n\n---\n\n');
 
   const chairP=`You are chairing a deliberation council. ${selectedModels.length} AI models independently answered a question and peer-reviewed each other. Deliver the definitive final verdict.\n\nOriginal question: ${q}\n\n== Individual responses ==\n${allR}\n\n== Peer reviews ==\n${allRv}\n\n== Your instructions ==\n${VERDICTS[selectedVerdict]}\n\nDeliver the Chairman's complete verdict now.`;
@@ -703,7 +812,7 @@ async function run(){
     const final=await groqChat(chairModel,[
       {role:'system',content:'You are the Chairman of a deliberation council. Synthesize multiple AI perspectives into the single definitive best answer. Be authoritative, thorough, and complete.'},
       {role:'user',content:chairP}
-    ],key,3000);
+    ],key,1200);
     document.getElementById('ft').innerHTML=`<div class="prose">${esc(final)}</div>`;
   }catch(e){
     document.getElementById('ft').innerHTML=`<div class="errtxt">Chairman synthesis failed: ${esc(e.message)}</div>`;
